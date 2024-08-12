@@ -23,6 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController phoneNoCtl = TextEditingController();
   TextEditingController emailNoCtl = TextEditingController();
   TextEditingController passNoCtl = TextEditingController();
+  TextEditingController confirmpasswordNoCtl = TextEditingController();
 
   @override
   void initState() {
@@ -49,7 +50,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 children: [
                   //ชื่อ-นามสกุล
                   const Padding(
-                    padding: EdgeInsets.fromLTRB(20, 0, 280, 0),
+                    padding: EdgeInsets.fromLTRB(10, 20, 250, 5),
                     child: Text(
                       'ชื่อ-นามสกุล',
                     ),
@@ -64,7 +65,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
                   // หมายเลขโทรศัพท์
                   const Padding(
-                    padding: EdgeInsets.fromLTRB(20, 20, 280, 0),
+                    padding: EdgeInsets.fromLTRB(10, 20, 200, 0),
                     child: Text(
                       'หมายเลขโทรศัพท์',
                     ),
@@ -83,7 +84,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
                   // อีเมล์
                   const Padding(
-                    padding: EdgeInsets.fromLTRB(20, 20, 280, 0),
+                    padding: EdgeInsets.fromLTRB(10, 20, 280, 0),
                     child: Text(
                       'อีเมล์',
                     ),
@@ -118,10 +119,11 @@ class _RegisterPageState extends State<RegisterPage> {
                       'ยืนยันรหัสผ่าน',
                     ),
                   ),
-                  const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: TextField(
-                          decoration: InputDecoration(
+                        controller: confirmpasswordNoCtl,
+                          decoration: const InputDecoration(
                               border: OutlineInputBorder(
                                   borderSide: BorderSide(width: 1))))),
                 ],
@@ -177,6 +179,15 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   void login() {
+    // Check if password and confirm password match
+    if (passNoCtl.text != confirmpasswordNoCtl.text) {
+      // Show error message to user
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('รหัสผ่านและยืนยันรหัสผ่านไม่ตรงกัน')),
+      );
+      return;
+    }
+
     // Call login api
     CoutomersRegisterPost req = CoutomersRegisterPost(
         fullname: nameNoCtl.text,

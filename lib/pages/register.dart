@@ -122,7 +122,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: TextField(
-                        controller: confirmpasswordNoCtl,
+                          controller: confirmpasswordNoCtl,
                           decoration: const InputDecoration(
                               border: OutlineInputBorder(
                                   borderSide: BorderSide(width: 1))))),
@@ -180,47 +180,46 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void login() {
     // Check if password and confirm password match
-    if (passNoCtl.text != confirmpasswordNoCtl.text && nameNoCtl.text.isNotEmpty && phoneNoCtl.text.isNotEmpty
-    && emailNoCtl.text.isNotEmpty && passNoCtl.text.isNotEmpty && confirmpasswordNoCtl.text.isNotEmpty) {
+    if (passNoCtl.text != confirmpasswordNoCtl.text &&
+        nameNoCtl.text.isNotEmpty &&
+        phoneNoCtl.text.isNotEmpty &&
+        emailNoCtl.text.isNotEmpty &&
+        passNoCtl.text.isNotEmpty &&
+        confirmpasswordNoCtl.text.isNotEmpty) {
       // Show error message to user
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('รหัสผ่านและยืนยันรหัสผ่านไม่ตรงกัน')),
       );
       CoutomersRegisterPost req = CoutomersRegisterPost(
-        fullname: nameNoCtl.text,
-        phone: phoneNoCtl.text,
-        email: emailNoCtl.text,
-        image: '',
-        password: passNoCtl.text);
+          fullname: nameNoCtl.text,
+          phone: phoneNoCtl.text,
+          email: emailNoCtl.text,
+          image: '',
+          password: passNoCtl.text);
 
-    http
-        .post(Uri.parse("$url/customers"),
-            headers: {"Content-Type": "application/json; charset=utf-8"},
-            // Send json string of object model
-            body: coutomersRegisterPostToJson(req))
-        .then(
-      (value) {
-        // Convert Json String to Object (Model)
-        Navigator.popUntil(
-          context,
-          (route) => route.isFirst,
-        );
-        CoutomersLoginPost customer = coutomersLoginPostFromJson(value.body);
+      http
+          .post(Uri.parse("$url/customers"),
+              headers: {"Content-Type": "application/json; charset=utf-8"},
+              // Send json string of object model
+              body: coutomersRegisterPostToJson(req))
+          .then(
+        (value) {
+          // Convert Json String to Object (Model)
+          Navigator.popUntil(
+            context,
+            (route) => route.isFirst,
+          );
+          CoutomersLoginPost customer = coutomersLoginPostFromJson(value.body);
 
-        log(customer.customer.email);
-        
-        // Convert Json String to Map<String, String
-        // var jsonRes = jsonDecode(value.body);
-        // log(jsonRes['customer']['email']);
-      },
-    ).catchError((eee) {
-      log(eee.toString());
-    });
+          log(customer.customer.email);
 
-
-
-
-      return;
+          // Convert Json String to Map<String, String
+          // var jsonRes = jsonDecode(value.body);
+          // log(jsonRes['customer']['email']);
+        },
+      ).catchError((eee) {
+        log(eee.toString());
+      });
     }
 
     // Call login api
@@ -246,7 +245,7 @@ class _RegisterPageState extends State<RegisterPage> {
     //     CoutomersLoginPost customer = coutomersLoginPostFromJson(value.body);
 
     //     log(customer.customer.email);
-        
+
     //     // Convert Json String to Map<String, String
     //     // var jsonRes = jsonDecode(value.body);
     //     // log(jsonRes['customer']['email']);

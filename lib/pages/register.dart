@@ -180,7 +180,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void login() {
     // Check if password and confirm password match
-    if (passNoCtl.text != confirmpasswordNoCtl.text) {
+    if (passNoCtl.text != confirmpasswordNoCtl.text && nameNoCtl.text.isNotEmpty && phoneNoCtl.text.isNotEmpty
+    && emailNoCtl.text.isNotEmpty && passNoCtl.text.isNotEmpty && confirmpasswordNoCtl.text.isNotEmpty) {
       // Show error message to user
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('รหัสผ่านและยืนยันรหัสผ่านไม่ตรงกัน')),

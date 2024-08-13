@@ -189,9 +189,7 @@ class _RegisterPageState extends State<RegisterPage> {
         passNoCtl.text.isNotEmpty &&
         confirmpasswordNoCtl.text.isNotEmpty) {
       // Show error message to user
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('รหัสผ่านและยืนยันรหัสผ่านไม่ตรงกัน')),
-      );
+    
       CoutomersRegisterPost req = CoutomersRegisterPost(
           fullname: nameNoCtl.text,
           phone: phoneNoCtl.text,

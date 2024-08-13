@@ -108,6 +108,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: TextField(
                           controller: passNoCtl,
+                          obscureText: true,
                           decoration: const InputDecoration(
                               border: OutlineInputBorder(
                                   borderSide: BorderSide(width: 1))))),
@@ -123,6 +124,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: TextField(
                           controller: confirmpasswordNoCtl,
+                          obscureText: true,
                           decoration: const InputDecoration(
                               border: OutlineInputBorder(
                                   borderSide: BorderSide(width: 1))))),
@@ -180,12 +182,12 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void login() {
     // Check if password and confirm password match
-    if (passNoCtl.text != confirmpasswordNoCtl.text &&
-        nameNoCtl.text != null &&
-        phoneNoCtl.text != null &&
-        emailNoCtl.text != null &&
-        passNoCtl.text != null &&
-        confirmpasswordNoCtl.text != null) {
+    if (passNoCtl.text == confirmpasswordNoCtl.text &&
+        nameNoCtl.text.isNotEmpty &&
+        phoneNoCtl.text.isNotEmpty &&
+        emailNoCtl.text.isNotEmpty &&
+        passNoCtl.text.isNotEmpty &&
+        confirmpasswordNoCtl.text.isNotEmpty) {
       // Show error message to user
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('รหัสผ่านและยืนยันรหัสผ่านไม่ตรงกัน')),

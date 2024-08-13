@@ -181,11 +181,11 @@ class _RegisterPageState extends State<RegisterPage> {
   void login() {
     // Check if password and confirm password match
     if (passNoCtl.text != confirmpasswordNoCtl.text &&
-        nameNoCtl.text.isNotEmpty &&
-        phoneNoCtl.text.isNotEmpty &&
-        emailNoCtl.text.isNotEmpty &&
-        passNoCtl.text.isNotEmpty &&
-        confirmpasswordNoCtl.text.isNotEmpty) {
+        nameNoCtl.text != null &&
+        phoneNoCtl.text != null &&
+        emailNoCtl.text != null &&
+        passNoCtl.text != null &&
+        confirmpasswordNoCtl.text != null) {
       // Show error message to user
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('รหัสผ่านและยืนยันรหัสผ่านไม่ตรงกัน')),
@@ -198,27 +198,32 @@ class _RegisterPageState extends State<RegisterPage> {
           password: passNoCtl.text);
 
       http
+          // .post(Uri.parse("$url/customers"),
           .post(Uri.parse("$url/customers"),
+              // .post(Uri.parse("http://192.168.196.72:3000/customers/login"),
               headers: {"Content-Type": "application/json; charset=utf-8"},
-              // Send json string of object model
+              // body: jsonEncode(data))
               body: coutomersRegisterPostToJson(req))
           .then(
         (value) {
-          // Convert Json String to Object (Model)
-          Navigator.popUntil(
-            context,
-            (route) => route.isFirst,
-          );
-          CoutomersLoginPost customer = coutomersLoginPostFromJson(value.body);
-
-          log(customer.customer.email);
-
-          // Convert Json String to Map<String, String
           // var jsonRes = jsonDecode(value.body);
           // log(jsonRes['customer']['email']);
+          log(value.body);
+
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                //Navigator.of(context).popUntil((route) => route.isFirst);
+                builder: (context) => LoginPage(),
+              ));
+
+          CoutomersLoginPost customersRequest =
+              coutomersLoginPostFromJson(value.body);
+          // log(customersRequest.fullname);
+          // log(customersRequest.email);
         },
-      ).catchError((eee) {
-        log(eee.toString());
+      ).catchError((error) {
+        // log('Error $error');
       });
     }
 

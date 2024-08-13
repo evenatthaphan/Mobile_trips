@@ -36,6 +36,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text('ข้อมูลส่วนตัว'),
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {
@@ -43,39 +44,28 @@ class _ProfilePageState extends State<ProfilePage> {
               if (value == 'delete') {
                 showDialog(
                   context: context,
-                  builder: (context) => AlertDialog(
-                    title: const Text('สำเร็จ'),
-                    content: const Text('ลบข้อมูลสำเร็จ'),
-                    actions: [
-                      FilledButton(
-                          onPressed: () {
-                            Navigator.popUntil(
-                              context,
-                              (route) => route.isFirst,
-                            );
-                          },
-                          child: const Text('ปิด'))
-                    ],
-                  ),
-                ).then((s) {
-                  Navigator.popUntil(
-                    context,
-                    (route) => route.isFirst,
-                  );
-                });
-              } else {
-                Navigator.pop(context);
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    title: const Text('ผิดพลาด'),
-                    content: const Text('ลบข้อมูลไม่สำเร็จ'),
-                    actions: [
-                      FilledButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text('ปิด'))
+                  builder: (context) => SimpleDialog(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Text(
+                          'ยืนยันการยกเลิกสมาชิก?',
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text('ปิด')),
+                          FilledButton(
+                              onPressed: delete, child: const Text('ยืนยัน'))
+                        ],
+                      ),
                     ],
                   ),
                 );
@@ -219,8 +209,27 @@ class _ProfilePageState extends State<ProfilePage> {
   void delete() async {
     var config = await Configuration.getConfig();
     var url = config['apiEndpoint'];
-
-    var res = await http.delete(Uri.parse('$url/customers/${widget.idx}'));
-    log(res.statusCode.toString());
+    try {
+      var res = await http.delete(Uri.parse('$url/customers/${widget.idx}'));
+      log(res.statusCode.toString());
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('สำเร็จ'),
+          content: const Text('ลบข้อมูลเรียบร้อย'),
+          actions: [
+            FilledButton(
+                onPressed: () { 
+                  Navigator.popUntil(
+                    context,
+                    (route) => route.isFirst,
+                  );
+                },
+                child: const Text('ปิด'))
+          ],
+        ),
+      );
+    } catch (err) {}
   }
 }
+

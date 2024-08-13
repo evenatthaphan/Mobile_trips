@@ -186,11 +186,7 @@ class _RegisterPageState extends State<RegisterPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('รหัสผ่านและยืนยันรหัสผ่านไม่ตรงกัน')),
       );
-      return;
-    }
-
-    // Call login api
-    CoutomersRegisterPost req = CoutomersRegisterPost(
+      CoutomersRegisterPost req = CoutomersRegisterPost(
         fullname: nameNoCtl.text,
         phone: phoneNoCtl.text,
         email: emailNoCtl.text,
@@ -220,6 +216,44 @@ class _RegisterPageState extends State<RegisterPage> {
     ).catchError((eee) {
       log(eee.toString());
     });
+
+
+
+
+      return;
+    }
+
+    // Call login api
+    // CoutomersRegisterPost req = CoutomersRegisterPost(
+    //     fullname: nameNoCtl.text,
+    //     phone: phoneNoCtl.text,
+    //     email: emailNoCtl.text,
+    //     image: '',
+    //     password: passNoCtl.text);
+
+    // http
+    //     .post(Uri.parse("$url/customers"),
+    //         headers: {"Content-Type": "application/json; charset=utf-8"},
+    //         // Send json string of object model
+    //         body: coutomersRegisterPostToJson(req))
+    //     .then(
+    //   (value) {
+    //     // Convert Json String to Object (Model)
+    //     Navigator.popUntil(
+    //       context,
+    //       (route) => route.isFirst,
+    //     );
+    //     CoutomersLoginPost customer = coutomersLoginPostFromJson(value.body);
+
+    //     log(customer.customer.email);
+        
+    //     // Convert Json String to Map<String, String
+    //     // var jsonRes = jsonDecode(value.body);
+    //     // log(jsonRes['customer']['email']);
+    //   },
+    // ).catchError((eee) {
+    //   log(eee.toString());
+    // });
     // setState(() {
     //   num++;
     //   text = 'Login time: $num';
